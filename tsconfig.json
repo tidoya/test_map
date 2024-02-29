@@ -1,25 +1,25 @@
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+{ 
+  "compilerOptions": { 
+   "target": "ESNext", 
+   "useDefineForClassFields": true, 
+   "module": "ESNext", 
+   "moduleResolution": "Node", 
+    "strict": true, 
+    "jsx": "preserve", 
+    "resolveJsonModule": true, 
+    "isolatedModules": true, 
+    "esModuleInterop": true, 
+    "allowSyntheticDefaultImports": true, 
+    "noFallthroughCasesInSwitch": true, 
+    "lib": ["ESNext", "DOM"], 
+    "skipLibCheck": true, 
+    "noEmit": true, 
+    "paths": { 
+      "@/*": ["./src/*"] 
+    }, 
+    "ignoreDeprecations": "5.0", 
+    "maxNodeModuleJsDepth": 100
+  }, 
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "declarations.d.ts"], 
+  "references": [{ "path": "./tsconfig.node.json" }] 
 }

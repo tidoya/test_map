@@ -1,0 +1,1 @@
+export const MoscowCoordinate = [37.618423, 55.751244]
