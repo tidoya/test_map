@@ -1,53 +1,67 @@
 <template>
-  <div :class="$style.wrapper">
+  <section :class="$style.wrapper">
     <div
       ref="mapContainer"
       :class="$style.wrapper__map"
       :style="props.styles"
     ></div>
-    <button @click="zoomIn">Приблизить</button>
-    <button @click="zoomOut">Отдалить</button>
-  </div>
+    <div :class="$style.container__buttons">
+      <ButtonMap
+        v-for="button in buttonConstants"
+        :key="button.name"
+        @click="() => changeZoom(button.typeAction)"
+        >{{ button.name }}</ButtonMap
+      >
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, CSSProperties } from "vue";
-import maplibregl from "maplibre-gl";
+import ButtonMap from "@/shared/Buttons/ButtonMap/ui/ButtonMap.vue";
+
+import { ref, onMounted, CSSProperties, Ref, computed } from "vue";
+import { ButtonMapEnums } from "@/shared/Buttons/ButtonMap/types/enums/ButtonMapEnums";
+
+import { buttonConstants } from "../model/constants/constants";
+import { useInstanceMap } from "@/app/store";
 
 const props = defineProps<{
   CoordsCenter: [number, number];
   styles?: CSSProperties;
 }>();
-const mapContainer = ref();
 
-const zoomIn = () => {
-  if (map) {
-    map.zoomIn();
-  }
-};
+const store = useInstanceMap();
+const mapContainer: Ref<HTMLElement | null> = ref(null);
+const instanceMap = computed(() => store.$state.instanceMap);
 
-const zoomOut = () => {
-  if (map) {
-    map.zoomOut();
+const changeZoom = (typeZoom: ButtonMapEnums) => {
+  switch (typeZoom) {
+    case ButtonMapEnums.zoomIn:
+      instanceMap.value?.zoomIn();
+      break;
+    case ButtonMapEnums.zoomOut:
+      instanceMap.value?.zoomOut();
+      break;
+    default:
+      break;
   }
 };
 
 onMounted(() => {
-  new maplibregl.Map({
-    container: mapContainer.value,
-    // if not work, update key https://cloud.maptiler.com/account/keys/
-    style:
-      "https://api.maptiler.com/maps/streets/style.json?key=3Z2h4Nzf4q0xcpcVIVZi",
-    center: props.CoordsCenter,
-    zoom: 8,
-  });
-  mapContainer.value.querySelector("canvas").style.borderRadius = "15px";
-  mapContainer.value.querySelector(
-    ".maplibregl-ctrl-bottom-right"
-  ).style.display = "none";
+  mapContainer.value &&
+    store.setInstanceMap(mapContainer.value, props.CoordsCenter);
 });
 </script>
 <style module lang="stylus">
 .wrapper
   cursor pointer
+  position relative
+  margin auto 0
+.container__buttons
+  position absolute
+  top calc(50% - 32.5px)
+  right 5px
+  display flex
+  flex-direction column
+  gap 5px
 </style>
