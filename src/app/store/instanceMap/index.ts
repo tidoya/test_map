@@ -16,6 +16,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
     async setInstanceMap(mapContainer: HTMLElement, centerCoordinates: [number, number]) {
       try {
         if (this.instanceMap) return; 
+        //@ts-ignore
         this.instanceMap = new Map({
           container: mapContainer,
           // if not work, update key https://cloud.maptiler.com/account/keys/

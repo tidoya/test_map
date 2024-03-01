@@ -37,7 +37,7 @@ const instanceMap = computed(() => storeInstanceMap.getInstanceMap);
 const storeFeaturesMap = useFeaturesMap();
 const featureObj = computed(() => storeFeaturesMap.getFeaturesMap);
 const activeFeatures = computed(() => storeFeaturesMap.getActiveFeaturesMap);
-console.log(activeFeatures, "featureObj");
+
 const mapContainer: Ref<HTMLElement | null> = ref(null);
 
 const changeZoom = (typeZoom: ButtonMapEnums) => {
@@ -66,7 +66,8 @@ onMounted(async () => {
       mapContainer.value,
       props.CoordsCenter
     ));
-  await storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
+  console.log("mount");
+  storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
 });
 </script>
 <style module lang="stylus">

@@ -31,7 +31,7 @@ export const useFeaturesMap = defineStore('featuresMap', {
         const latitude = Math.random() * (maxLatitude - minLatitude) + minLatitude;
         const longitude = Math.random() * (maxLongitude - minLongitude) + minLongitude;
         const id = this.generateRandomFeatureId(latitude, longitude);
-        const checked = i === 0;
+        const checked = false;
         this.featuresMap.push({
           id,
           checked,
