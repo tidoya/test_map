@@ -32,12 +32,12 @@ const props = defineProps<{
 }>();
 
 const storeInstanceMap = useInstanceMap();
-const instanceMap = computed(() => storeInstanceMap.$state.instanceMap);
+const instanceMap = computed(() => storeInstanceMap.getInstanceMap);
 
 const storeFeaturesMap = useFeaturesMap();
-const featureObj = computed(() => storeFeaturesMap.$state.featuresMap);
-const activeFeatures = computed(() => storeFeaturesMap.$state.activeFeatures);
-
+const featureObj = computed(() => storeFeaturesMap.getFeaturesMap);
+const activeFeatures = computed(() => storeFeaturesMap.getActiveFeaturesMap);
+console.log(activeFeatures, "featureObj");
 const mapContainer: Ref<HTMLElement | null> = ref(null);
 
 const changeZoom = (typeZoom: ButtonMapEnums) => {
@@ -53,11 +53,12 @@ const changeZoom = (typeZoom: ButtonMapEnums) => {
   }
 };
 watch(
-  activeFeatures.value,
-  async () => {
-    await storeInstanceMap.setFeaturesInMap(activeFeatures.value);
+  () => activeFeatures.value,
+  async (newVal) => {
+    console.log("watch");
+    await storeInstanceMap.setFeaturesInMap(newVal);
   },
-  { immediate: true }
+  { deep: true }
 );
 onMounted(async () => {
   mapContainer.value &&
@@ -65,7 +66,7 @@ onMounted(async () => {
       mapContainer.value,
       props.CoordsCenter
     ));
-  await storeFeaturesMap.setActiveFeatures(featureObj.value[0]);
+  await storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
 });
 </script>
 <style module lang="stylus">

@@ -47,16 +47,17 @@ import { featureChekedTypes } from "@/app/store/featuresMap/types/types";
 import { computed, onMounted, ref } from "vue";
 
 const featuresStore = useFeaturesMap();
-const featureObj = computed(() => featuresStore.$state.featuresMap);
+const featureObj = computed(() => featuresStore.getFeaturesMap);
 
 const allChecked = ref(false);
 
 const hangleClickCheckbox = () => {
-  featuresStore.setAllCheackedFeatures(!allChecked.value);
+  featuresStore.setAllCheckedFeatures(!allChecked.value);
 };
 
 const handeleClickActiveFeature = (feature: featureChekedTypes) => {
-  featuresStore.setActiveFeatures(feature);
+  if (!feature.checked) featuresStore.toggleActiveFeature(feature);
+  else featuresStore.deleteActiveFeatures(feature);
 };
 
 onMounted(() => {
