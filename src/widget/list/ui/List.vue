@@ -48,7 +48,6 @@ import { computed, onMounted, ref } from "vue";
 
 const featuresStore = useFeaturesMap();
 const featureObj = computed(() => featuresStore.$state.featuresMap);
-const activeFeaturesObj = computed(() => featuresStore.$state.activeFeatures);
 
 const allChecked = ref(false);
 

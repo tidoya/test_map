@@ -46,8 +46,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
           console.log('Map instance not initialized');
           return;
         }
-       
-
+        
         const replaceFeaters = featuresObj.map(feature => feature.features)
         
         if (this.instanceMap.getSource('conferences')) {

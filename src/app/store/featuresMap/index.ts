@@ -28,7 +28,7 @@ export const useFeaturesMap = defineStore('featuresMap', {
             const longitude = (Math.random() * (maxLongitude - minLongitude)) + minLongitude;
             this.featuresMap.push({
             id: `${i}-${latitude}${longitude}`,
-            checked: false,
+            checked: i === 0 ? true : false,
             features: {
               type: 'Feature',
               geometry: {
