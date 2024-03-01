@@ -42,7 +42,9 @@ export const useFeaturesMap = defineStore('featuresMap', {
               coordinates: [longitude, latitude]
             },
             properties: {
-              name: `№${i}`
+              name: `№${i+1}`,
+              code: '234567890234',
+              address: 'ул. 5-я Парковая, 33-489'
             }
           }
         });

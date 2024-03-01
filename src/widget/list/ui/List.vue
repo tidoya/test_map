@@ -11,7 +11,7 @@
         @click="hangleClickCheckbox"
       />
       <label :class="$style.label" for="all"
-        >Выбрать все точки ({{ featureObj.length }})</label
+        >Выбрать все ({{ featureObj.length }})</label
       >
     </div>
     <ul :class="$style.content">
@@ -33,7 +33,13 @@
               :class="$style.input"
               @click="() => handeleClickActiveFeature(item)"
             />
-            <div>{{ item.features.geometry.coordinates }}</div>
+            {{ console.log(item) }}
+            <ListItem
+              v-bind="{
+                ...item,
+                index,
+              }"
+            />
           </label>
         </li>
       </q-virtual-scroll>
@@ -42,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+import ListItem from "@/entities/ListItem/ui/ListItem.vue";
+
 import { useFeaturesMap } from "@/app/store/featuresMap";
 import { featureChekedTypes } from "@/app/store/featuresMap/types/types";
 import { computed, onMounted, ref } from "vue";
@@ -65,6 +73,16 @@ onMounted(() => {
 });
 </script>
 <style module lang="stylus">
+@keyframes fadeInCheckbox {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .wrapper
   display flex
   flex-direction column
@@ -108,10 +126,28 @@ onMounted(() => {
     border 1px solid #808080
     border-radius 10px
     height 100%
-.wrapper__list
-  display flex
-  flex-direction column
-  gap 30px
 .label
   cursor pointer
+.input
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  width 20px
+  height 20px
+  background-color #5D3FD3
+  border 1px solid #5D3FD3
+  border-radius 3px
+  cursor pointer
+  position relative
+  overflow hidden
+  opacity 0
+  animation fadeInCheckbox 0.5s forwards
+  &:checked::after
+    content '\2713'
+    font-size 22px
+    color #c0c0c0
+    position relative
+    left 2px
+    top -7px
+    animation fadeInCheckbox 0.5s forwards
 </style>
