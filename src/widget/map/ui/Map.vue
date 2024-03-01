@@ -19,20 +19,26 @@
 <script setup lang="ts">
 import ButtonMap from "@/shared/Buttons/ButtonMap/ui/ButtonMap.vue";
 
-import { ref, onMounted, CSSProperties, Ref, computed } from "vue";
+import { ref, onMounted, CSSProperties, Ref, computed, watch } from "vue";
 import { ButtonMapEnums } from "@/shared/Buttons/ButtonMap/types/enums/ButtonMapEnums";
 
 import { buttonConstants } from "../model/constants/constants";
-import { useInstanceMap } from "@/app/store";
+import { useInstanceMap } from "@/app/store/instanceMap/index";
+import { useFeaturesMap } from "@/app/store/featuresMap";
 
 const props = defineProps<{
   CoordsCenter: [number, number];
   styles?: CSSProperties;
 }>();
 
-const store = useInstanceMap();
+const storeInstanceMap = useInstanceMap();
+const storeFeaturesMap = useFeaturesMap();
+
+const instanceMap = computed(() => storeInstanceMap.$state.instanceMap);
+const featureObj = computed(() => storeFeaturesMap.$state.featuresMap);
+const activeFeatures = computed(() => storeFeaturesMap.$state.activeFeatures);
+
 const mapContainer: Ref<HTMLElement | null> = ref(null);
-const instanceMap = computed(() => store.$state.instanceMap);
 
 const changeZoom = (typeZoom: ButtonMapEnums) => {
   switch (typeZoom) {
@@ -46,10 +52,16 @@ const changeZoom = (typeZoom: ButtonMapEnums) => {
       break;
   }
 };
-
-onMounted(() => {
+watch(
+  activeFeatures.value,
+  async () => {
+    await storeInstanceMap.setFeaturesInMap(activeFeatures.value);
+  },
+  { immediate: true }
+);
+onMounted(async () => {
   mapContainer.value &&
-    store.setInstanceMap(mapContainer.value, props.CoordsCenter);
+    storeInstanceMap.setInstanceMap(mapContainer.value, props.CoordsCenter);
 });
 </script>
 <style module lang="stylus">

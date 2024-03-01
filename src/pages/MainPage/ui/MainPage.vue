@@ -30,5 +30,5 @@ import { MoscowCoordinate } from "../model/constants/constants";
   border-radius 10px
   transition all 0.5s ease-out
 .wrapper:hover
-  box-shadow 0px 0px 20px rgba(128, 128, 128, 0.5)
+  box-shadow 0px 0px 50px rgba(128, 128, 128, 0.7)
 </style>

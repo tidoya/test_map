@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonPropsTypes } from "../types/ButtonMap";
+import { ButtonPropsTypes } from "../types/ButtonMapTypes";
 
 const props = defineProps<ButtonPropsTypes>();
 </script>
@@ -24,3 +24,4 @@ const props = defineProps<ButtonPropsTypes>();
   background-color #1C1C1C
   color #fff
 </style>
+../types/ButtonMapTypes
