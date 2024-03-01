@@ -32,9 +32,9 @@ const props = defineProps<{
 }>();
 
 const storeInstanceMap = useInstanceMap();
-const storeFeaturesMap = useFeaturesMap();
-
 const instanceMap = computed(() => storeInstanceMap.$state.instanceMap);
+
+const storeFeaturesMap = useFeaturesMap();
 const featureObj = computed(() => storeFeaturesMap.$state.featuresMap);
 const activeFeatures = computed(() => storeFeaturesMap.$state.activeFeatures);
 
@@ -61,7 +61,11 @@ watch(
 );
 onMounted(async () => {
   mapContainer.value &&
-    storeInstanceMap.setInstanceMap(mapContainer.value, props.CoordsCenter);
+    (await storeInstanceMap.setInstanceMap(
+      mapContainer.value,
+      props.CoordsCenter
+    ));
+  await storeFeaturesMap.setActiveFeatures(featureObj.value[0]);
 });
 </script>
 <style module lang="stylus">

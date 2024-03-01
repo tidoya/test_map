@@ -28,6 +28,16 @@ export const useInstanceMap = defineStore('InstanceMap', {
           //image
           const [width, data] = getImageCircle(64)
           this.instanceMap.addImage('custom-marker', { width, height: width, data });
+          
+          await new Promise<void>((resolve, reject) => {
+            this.instanceMap?.on('style.load', () => {
+                resolve();
+            });
+            this.instanceMap?.on('error', (error) => {
+                reject(error.error);
+            });
+          });
+
           (mapContainer.querySelector('.maplibregl-canvas') as HTMLCanvasElement).style.borderRadius = '15px';
           (mapContainer.querySelector('.maplibregl-control-container') as HTMLElement).style.display = 'none'
       },
@@ -36,16 +46,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
           console.log('Map instance not initialized');
           return;
         }
-        // await new Promise<void>((resolve, reject) => {
-        //   this.instanceMap?.on('style.load', () => {
-        //       resolve();
-        //   });
-        //   this.instanceMap?.on('error', (error) => {
-        //       reject(error.error);
-        //   });
-        // });
-
-        
+       
 
         const replaceFeaters = featuresObj.map(feature => feature.features)
         

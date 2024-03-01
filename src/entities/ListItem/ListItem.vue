@@ -2,7 +2,9 @@
   <section :class="$style.wrapper"></section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{}>();
+</script>
 <style module lang="stylus">
 .wrapper
   display flex
