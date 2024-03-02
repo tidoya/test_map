@@ -1,5 +1,7 @@
 import { FeatureTypes } from "./geojson.types"
-
+type longitude = number
+type latitude = number
+export type coordinateTypes = [longitude, latitude]
 export interface featureChekedTypes { 
   id: string,
   features: FeatureTypes,

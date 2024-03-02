@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 import { Map } from "maplibre-gl";
 import { stateMapTypes } from "./types/types";
 import { getImageCircle } from './model/getImageCircle';
-import { featureChekedTypes } from './../featuresMap/types/types';
-
+import { featureChekedTypes, coordinateTypes } from './../featuresMap/types/types';
 
 export const useInstanceMap = defineStore('InstanceMap', {
   state: (): stateMapTypes => ({
@@ -13,7 +12,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
     getInstanceMap: (state) => state.instanceMap,
   },
   actions: {
-    async setInstanceMap(mapContainer: HTMLElement, centerCoordinates: [number, number]) {
+    async setInstanceMap(mapContainer: HTMLElement, centerCoordinates: coordinateTypes) {
       try {
         if (this.instanceMap) return; 
         //@ts-ignore
@@ -80,10 +79,18 @@ export const useInstanceMap = defineStore('InstanceMap', {
             'text-offset': [0, 1.25],
             'text-anchor': 'top'
           }
-        });
+        })
       } catch (error) {
         console.error("Error setting features in map:", error);
       }
+    },
+    setActiveFeatureMap(coodinate: coordinateTypes){
+      if (!this.instanceMap) return; 
+      this.instanceMap.flyTo({
+        center: coodinate,
+        essential: true,
+        zoom: 10 
+      });
     }
   }
 });

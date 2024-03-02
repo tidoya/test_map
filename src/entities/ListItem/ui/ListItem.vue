@@ -17,8 +17,21 @@
 
 <script setup lang="ts">
 import { ListItemTypes } from "../model/types/ListItemTypes";
+import { ref, reactive } from "vue";
 
+const editing = ref(false);
+const editedText = ref("");
+
+const handleEdit = () => {
+  editing.value = true;
+  editedText.value = initialText.value;
+};
+function save() {
+  initialText.value = editedText.value;
+  editing.value = false;
+}
 const props = defineProps<ListItemTypes>();
+console.log(props, "propsList");
 </script>
 <style module lang="stylus">
 .wrapper__itemList

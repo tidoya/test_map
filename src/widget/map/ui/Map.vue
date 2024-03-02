@@ -55,7 +55,6 @@ const changeZoom = (typeZoom: ButtonMapEnums) => {
 watch(
   () => activeFeatures.value,
   async (newVal) => {
-    console.log("watch");
     await storeInstanceMap.setFeaturesInMap(newVal);
   },
   { deep: true }
@@ -66,7 +65,6 @@ onMounted(async () => {
       mapContainer.value,
       props.CoordsCenter
     ));
-  console.log("mount");
   storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
 });
 </script>

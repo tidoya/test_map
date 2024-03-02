@@ -26,21 +26,29 @@
         :class="$style.virtual_scroll"
       >
         <li :class="$style.item__container">
-          <label :key="item.id" :class="$style.item__label">
-            <input
-              v-model="item.checked"
-              type="checkbox"
-              :class="$style.input"
-              @click="() => handeleClickActiveFeature(item)"
-            />
-            {{ console.log(item) }}
-            <ListItem
-              v-bind="{
-                ...item,
-                index,
-              }"
-            />
-          </label>
+          <form>
+            <label
+              :key="item.id"
+              :class="[
+                $style.item__label,
+                item.id === activeSingleFeature?.id &&
+                  $style.item__label__active,
+              ]"
+            >
+              <input
+                v-model="item.checked"
+                type="checkbox"
+                :class="$style.input"
+                @click="() => handeleClickActiveFeature(item)"
+              />
+              <ListItem
+                v-bind="{
+                  ...item,
+                  index,
+                }"
+              />
+            </label>
+          </form>
         </li>
       </q-virtual-scroll>
     </ul>
@@ -51,13 +59,22 @@
 import ListItem from "@/entities/ListItem/ui/ListItem.vue";
 
 import { useFeaturesMap } from "@/app/store/featuresMap";
-import { featureChekedTypes } from "@/app/store/featuresMap/types/types";
-import { computed, onMounted, ref } from "vue";
+import { useInstanceMap } from "@/app/store/instanceMap";
+import {
+  coordinateTypes,
+  featureChekedTypes,
+} from "@/app/store/featuresMap/types/types";
+import { Ref, computed, onMounted, ref, watch } from "vue";
+import { LngLatLike } from "maplibre-gl";
+
+const storeInstanceMap = useInstanceMap();
 
 const featuresStore = useFeaturesMap();
 const featureObj = computed(() => featuresStore.getFeaturesMap);
+const activeFeatures = computed(() => featuresStore.getActiveFeaturesMap);
 
 const allChecked = ref(false);
+const activeSingleFeature: Ref<null | featureChekedTypes> = ref(null);
 
 const hangleClickCheckbox = () => {
   featuresStore.setAllCheckedFeatures(!allChecked.value);
@@ -67,6 +84,21 @@ const handeleClickActiveFeature = (feature: featureChekedTypes) => {
   if (!feature.checked) featuresStore.toggleActiveFeature(feature);
   else featuresStore.deleteActiveFeatures(feature);
 };
+
+watch(
+  () => activeFeatures.value,
+  async (newVal) => {
+    // Делаем что то когда элемент  активный
+    activeSingleFeature.value = newVal[newVal.length - 1];
+    if (activeSingleFeature.value)
+      storeInstanceMap.setActiveFeatureMap(
+        activeSingleFeature.value.features.geometry
+          .coordinates as coordinateTypes
+      );
+    console.log(activeSingleFeature.value, "activeSingleFeature");
+  },
+  { deep: true }
+);
 
 onMounted(() => {
   featuresStore.setRandomFeatures(10000);
@@ -126,6 +158,8 @@ onMounted(() => {
     border 1px solid #808080
     border-radius 10px
     height 100%
+    &__active
+      border-color #FFF
 .label
   cursor pointer
 .input
@@ -139,9 +173,6 @@ onMounted(() => {
   border-radius 3px
   cursor pointer
   position relative
-  overflow hidden
-  opacity 0
-  animation fadeInCheckbox 0.5s forwards
   &:checked::after
     content '\2713'
     font-size 22px
