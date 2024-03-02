@@ -36,11 +36,11 @@ const props = defineProps<ListItemTypes>();
   &__code
     display flex
     align-items center
-    color rgb(93, 63, 211)
+    color #808080
     margin 0
 .content
   display flex
   &__address
-    color rgb(93, 63, 211)
+    color #808080
     margin 0
 </style>

@@ -134,8 +134,8 @@ onMounted(() => {
   appearance none
   width 20px
   height 20px
-  background-color #5D3FD3
-  border 1px solid #5D3FD3
+  background-color #808080
+  border 1px solid #808080
   border-radius 3px
   cursor pointer
   position relative
@@ -145,7 +145,7 @@ onMounted(() => {
   &:checked::after
     content '\2713'
     font-size 22px
-    color #c0c0c0
+    color #ffffff
     position relative
     left 2px
     top -7px
