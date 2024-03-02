@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { ButtonAddressTypes } from "../types/ButtonAddressTypes";
-
 const props = defineProps<ButtonAddressTypes>();
 </script>
 <style module lang="stylus">

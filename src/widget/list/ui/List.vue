@@ -88,14 +88,12 @@ const handeleClickActiveFeature = (feature: featureChekedTypes) => {
 
 watch(
   () => activeSingleFeature.value,
-  async (newVal) => {
-    // activeSingleFeature.value = newVal[newVal.length - 1];
+  async () => {
     if (activeSingleFeature.value)
       storeInstanceMap.setActiveFeatureInMap(
         activeSingleFeature.value.features.geometry
           .coordinates as coordinateTypes
       );
-    console.log(activeSingleFeature.value, "activeSingleFeature");
   },
   { deep: true }
 );
