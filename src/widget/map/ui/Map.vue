@@ -25,9 +25,10 @@ import { ButtonMapEnums } from "@/shared/Buttons/ButtonMap/types/enums/ButtonMap
 import { buttonConstants } from "../model/constants/constants";
 import { useInstanceMap } from "@/app/store/instanceMap/index";
 import { useFeaturesMap } from "@/app/store/featuresMap";
+import { coordinateTypes } from "@/app/store/featuresMap/types/types";
 
 const props = defineProps<{
-  CoordsCenter: [number, number];
+  CoordsCenter: coordinateTypes;
   styles?: CSSProperties;
 }>();
 
@@ -66,6 +67,7 @@ onMounted(async () => {
       props.CoordsCenter
     ));
   storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
+  storeFeaturesMap.setActiveSingleFeature(featureObj.value[0]);
 });
 </script>
 <style module lang="stylus">

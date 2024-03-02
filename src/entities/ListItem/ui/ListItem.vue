@@ -7,31 +7,33 @@
       </p>
     </div>
     <div :class="$style.content">
-      <img src="../../../assets/icons/location.svg" />
-      <p :class="$style.content__address">
+      <ButtonAddress @click="handleClickAddress">
+        <img src="../../../assets/icons/location.svg" />
         {{ props.features.properties?.address }}
-      </p>
+      </ButtonAddress>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ButtonAddress from "@/shared/Buttons/ButtonAddress/ui/ButtonAddress.vue";
 import { ListItemTypes } from "../model/types/ListItemTypes";
-import { ref, reactive } from "vue";
+import { useFeaturesMap } from "@/app/store/featuresMap";
 
-const editing = ref(false);
-const editedText = ref("");
+const storeFeaturesMap = useFeaturesMap();
 
-const handleEdit = () => {
-  editing.value = true;
-  editedText.value = initialText.value;
+const handleClickAddress = (e: Event) => {
+  e.preventDefault();
+  if (props.checked) {
+    console.log(props, "address checked");
+    storeFeaturesMap.setActiveSingleFeature(props);
+  } else {
+    //Показать модальное окно
+    console.log(props, "address not checked");
+  }
 };
-function save() {
-  initialText.value = editedText.value;
-  editing.value = false;
-}
+
 const props = defineProps<ListItemTypes>();
-console.log(props, "propsList");
 </script>
 <style module lang="stylus">
 .wrapper__itemList
@@ -49,11 +51,6 @@ console.log(props, "propsList");
   &__code
     display flex
     align-items center
-    color #808080
-    margin 0
-.content
-  display flex
-  &__address
     color #808080
     margin 0
 </style>

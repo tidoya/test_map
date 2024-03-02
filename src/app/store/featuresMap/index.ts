@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 import { stateFeaturesMapTypes } from "./types/types";
 import { minLatitude, maxLatitude, minLongitude, maxLongitude } from './constants/constants';
 import { featureChekedTypes } from './types/types';
+import { generateRandomFeatureId } from "./model/generateRadomFeatureId";
 
 export const useFeaturesMap = defineStore('featuresMap', {
   state: (): stateFeaturesMapTypes => ({
     featuresMap: [],
-    activeFeatures: []
+    activeFeatures: [],
+    activeSingleFeature: null
   }),
   getters: {
     getFeaturesMap(state) {
@@ -14,6 +16,9 @@ export const useFeaturesMap = defineStore('featuresMap', {
     },
     getActiveFeaturesMap(state) {
       return state.activeFeatures;
+    },
+    getActiveSingleFeaturesMap(state) {
+      return state.activeSingleFeature;
     }
   },
   actions: {
@@ -23,14 +28,17 @@ export const useFeaturesMap = defineStore('featuresMap', {
     clearActiveFeatures() {
       this.activeFeatures = [];
     },
-    generateRandomFeatureId(latitude: number, longitude: number): string {
-      return `${latitude}-${longitude}`;
+    clearActiveSingleFeatures() {
+      this.activeSingleFeature = null;
+    },
+    setActiveSingleFeature(feature: featureChekedTypes){
+      this.activeSingleFeature = feature;
     },
     setRandomFeatures(count: number) {
       for (let i = 0; i < count; i++) {
         const latitude = Math.random() * (maxLatitude - minLatitude) + minLatitude;
         const longitude = Math.random() * (maxLongitude - minLongitude) + minLongitude;
-        const id = this.generateRandomFeatureId(latitude, longitude);
+        const id = generateRandomFeatureId(i,latitude, longitude);
         const checked = false;
         this.featuresMap.push({
           id,

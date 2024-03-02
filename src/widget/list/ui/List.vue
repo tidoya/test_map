@@ -65,16 +65,17 @@ import {
   featureChekedTypes,
 } from "@/app/store/featuresMap/types/types";
 import { Ref, computed, onMounted, ref, watch } from "vue";
-import { LngLatLike } from "maplibre-gl";
 
 const storeInstanceMap = useInstanceMap();
 
 const featuresStore = useFeaturesMap();
 const featureObj = computed(() => featuresStore.getFeaturesMap);
 const activeFeatures = computed(() => featuresStore.getActiveFeaturesMap);
+const activeSingleFeature = computed(
+  () => featuresStore.getActiveSingleFeaturesMap
+);
 
 const allChecked = ref(false);
-const activeSingleFeature: Ref<null | featureChekedTypes> = ref(null);
 
 const hangleClickCheckbox = () => {
   featuresStore.setAllCheckedFeatures(!allChecked.value);
@@ -86,12 +87,11 @@ const handeleClickActiveFeature = (feature: featureChekedTypes) => {
 };
 
 watch(
-  () => activeFeatures.value,
+  () => activeSingleFeature.value,
   async (newVal) => {
-    // Делаем что то когда элемент  активный
-    activeSingleFeature.value = newVal[newVal.length - 1];
+    // activeSingleFeature.value = newVal[newVal.length - 1];
     if (activeSingleFeature.value)
-      storeInstanceMap.setActiveFeatureMap(
+      storeInstanceMap.setActiveFeatureInMap(
         activeSingleFeature.value.features.geometry
           .coordinates as coordinateTypes
       );
@@ -134,19 +134,6 @@ onMounted(() => {
   height 600px
   padding 0
   margin 0
-.virtual_scroll
-  padding-right 5px
-.virtual_scroll::-webkit-scrollbar
-  width 12px
-.virtual_scroll::-webkit-scrollbar-track
-  background black
-.virtual_scroll::-webkit-scrollbar-thumb
-  background #888
-  border-radius 6px
-  cursor pointer
-
-.virtual_scroll::-webkit-scrollbar-thumb:hover
-  background #555
 .item
   &__container
     padding 10px 0
@@ -181,4 +168,17 @@ onMounted(() => {
     left 2px
     top -7px
     animation fadeInCheckbox 0.5s forwards
+.virtual_scroll
+  padding-right 5px
+.virtual_scroll::-webkit-scrollbar
+  width 12px
+.virtual_scroll::-webkit-scrollbar-track
+  background black
+.virtual_scroll::-webkit-scrollbar-thumb
+  background #888
+  border-radius 6px
+  cursor pointer
+
+.virtual_scroll::-webkit-scrollbar-thumb:hover
+  background #555
 </style>

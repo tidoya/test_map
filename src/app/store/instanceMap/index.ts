@@ -84,7 +84,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
         console.error("Error setting features in map:", error);
       }
     },
-    setActiveFeatureMap(coodinate: coordinateTypes){
+    setActiveFeatureInMap(coodinate: coordinateTypes){
       if (!this.instanceMap) return; 
       this.instanceMap.flyTo({
         center: coodinate,
