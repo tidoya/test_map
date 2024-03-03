@@ -50,8 +50,8 @@ export const useFeaturesMap = defineStore('featuresMap', {
               coordinates: [longitude, latitude]
             },
             properties: {
-              name: `№${i+1}`,
-              code: '234567890234',
+              name: `Точка №${i+1}`,
+              code: 'Код: 234567890234',
               address: 'ул. 5-я Парковая, 33-489'
             }
           }

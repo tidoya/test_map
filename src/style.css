@@ -24,3 +24,27 @@ html,
   font-size: 16px; 
   overscroll-behavior-y: contain;
 }
+#popupContentInMap {
+  background-color: #ffffff; 
+  border-radius: 10px;
+  width: 200px;
+  padding: 10px; 
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  color: #000;
+}
+#popupContentInMap::after {
+  content: '';
+  position: absolute;
+  left: 50%; 
+  bottom: -17px; 
+  transform: translateX(-50%) rotate(180deg);
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #ffffff transparent; 
+  border-radius: 0 0 10px 10px;
+}
+.popupContentInMap__text{
+  font-size: 16px;
+  margin: 0;
+}

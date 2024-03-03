@@ -26,29 +26,26 @@
         :class="$style.virtual_scroll"
       >
         <li :class="$style.item__container">
-          <form>
-            <label
-              :key="item.id"
-              :class="[
-                $style.item__label,
-                item.id === activeSingleFeature?.id &&
-                  $style.item__label__active,
-              ]"
-            >
-              <input
-                v-model="item.checked"
-                type="checkbox"
-                :class="$style.input"
-                @click="() => handeleClickActiveFeature(item)"
-              />
-              <ListItem
-                v-bind="{
-                  ...item,
-                  index,
-                }"
-              />
-            </label>
-          </form>
+          <label
+            :key="item.id"
+            :class="[
+              $style.item__label,
+              item.id === activeSingleFeature?.id && $style.item__label__active,
+            ]"
+          >
+            <input
+              v-model="item.checked"
+              type="checkbox"
+              :class="$style.input"
+              @click="() => handeleClickActiveFeature(item)"
+            />
+            <ListItem
+              v-bind="{
+                ...item,
+                index,
+              }"
+            />
+          </label>
         </li>
       </q-virtual-scroll>
     </ul>
@@ -71,6 +68,7 @@ const storeInstanceMap = useInstanceMap();
 const featuresStore = useFeaturesMap();
 const featureObj = computed(() => featuresStore.getFeaturesMap);
 const activeFeatures = computed(() => featuresStore.getActiveFeaturesMap);
+
 const activeSingleFeature = computed(
   () => featuresStore.getActiveSingleFeaturesMap
 );

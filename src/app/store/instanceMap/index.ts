@@ -1,8 +1,11 @@
 import { defineStore } from "pinia";
-import { Map } from "maplibre-gl";
-import { stateMapTypes } from "./types/types";
+import { LngLat, Map, MapGeoJSONFeature, MapMouseEvent, Popup } from "maplibre-gl";
+import { propertiesTypes, stateMapTypes } from "./types/types";
 import { getImageCircle } from './model/getImageCircle';
 import { featureChekedTypes, coordinateTypes } from './../featuresMap/types/types';
+import ModalWindowInMap from '@/entities/ModalWindowInMap/ui/ModalWindowInMap.vue'
+import { createApp } from "vue";
+import { getPopupContent } from "./model/getPopupContent";
 
 export const useInstanceMap = defineStore('InstanceMap', {
   state: (): stateMapTypes => ({
@@ -41,6 +44,20 @@ export const useInstanceMap = defineStore('InstanceMap', {
         if (controlContainer) {
           controlContainer.style.display = 'none';
         }
+
+        this.instanceMap.on('click', 'conferences', (e: MapMouseEvent & { features?: MapGeoJSONFeature[] | undefined }) => {
+          if (e.features) {
+            const feature = e.features[0];
+            if (feature.geometry.type === 'Point') { 
+                const coordinates = feature.geometry.coordinates.slice() as coordinateTypes;
+                const { address, code, name } = feature.properties;
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                this.openModalAtCoordinates(coordinates, { address, code, name });
+            }
+        }
+      });
       } catch (error) {
         console.error("Error setting up instance map:", error);
       }
@@ -89,8 +106,32 @@ export const useInstanceMap = defineStore('InstanceMap', {
       this.instanceMap.flyTo({
         center: coodinate,
         essential: true,
+        animate: false,
         zoom: 10 
       });
+    },
+    openModalAtCoordinates(coordinates: coordinateTypes, properties: propertiesTypes) {
+      if (!this.instanceMap) return; 
+      this.removeAllModalWindow()
+      
+      const popup = new Popup({
+        closeButton: false
+      })
+        .setLngLat(coordinates)
+        .setHTML(getPopupContent(properties));
+        
+      popup.addTo(this.instanceMap as Map);
+      const heightPopup = this.instanceMap._container?.querySelector('#popupContentInMap')?.clientHeight
+      console.log(heightPopup, 'heightPopup')
+      heightPopup && popup.setOffset([9, -630 -heightPopup]); 
+      console.log('Opening modal at coordinates:', coordinates);
+    },
+    removeAllModalWindow(){
+      if (!this.instanceMap) return;
+      const popups = this.instanceMap._container.getElementsByClassName('maplibregl-popup')
+      for (var i = 0; i < popups.length; i++) {
+        popups[i].remove();
+      }
     }
   }
 });

@@ -19,16 +19,21 @@
 import ButtonAddress from "@/shared/Buttons/ButtonAddress/ui/ButtonAddress.vue";
 import { ListItemTypes } from "../model/types/ListItemTypes";
 import { useFeaturesMap } from "@/app/store/featuresMap";
+import { useInstanceMap } from "@/app/store/instanceMap";
+import { coordinateTypes } from "@/app/store/featuresMap/types/types";
 
 const storeFeaturesMap = useFeaturesMap();
+const storeInstanceMap = useInstanceMap();
 
 const handleClickAddress = (e: Event) => {
   e.preventDefault();
   if (props.checked) {
-    console.log(props, "address checked");
     storeFeaturesMap.setActiveSingleFeature(props);
+    storeInstanceMap.openModalAtCoordinates(
+      props.features.geometry.coordinates as coordinateTypes,
+      { ...props.features.properties }
+    );
   } else {
-    //Показать модальное окно
     console.log(props, "address not checked");
   }
 };
