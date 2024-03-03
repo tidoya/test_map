@@ -1,3 +1,3 @@
 import { ButtonHTMLAttributes, ReservedProps } from "vue";
 
-export interface ButtonTypes extends /* @vue-ignore */ ButtonHTMLAttributes, ReservedProps {}
+export interface ButtonTypes extends /* @vue-ignore */ ButtonHTMLAttributes {}

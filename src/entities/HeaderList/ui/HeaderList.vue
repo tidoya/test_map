@@ -10,9 +10,11 @@
       </div>
     </div>
     <div :class="$style.header__content">
-      <CheckBoxListInput
+      <input
+        type="checkbox"
         name="all"
         id="all"
+        :class="$style.input"
         v-model="allChecked"
         @click="hangleClickCheckbox"
       />
@@ -27,7 +29,6 @@
 import { useFeaturesMap } from "@/app/store/featuresMap";
 import { useInstanceMap } from "@/app/store/instanceMap";
 import ButtonIcon from "@/shared/Buttons/ButtonIcon/ui/ButtonIcon.vue";
-import CheckBoxListInput from "@/shared/Inputs/CheckBoxListInput/ui/CheckBoxListInput.vue";
 import { ref } from "vue";
 
 const storeInstanceMap = useInstanceMap();
@@ -62,4 +63,23 @@ const props = defineProps<{
     gap 5px
     cursor pointer
     margin-bottom 5px
+.input
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  width 20px
+  height 20px
+  background-color #808080
+  border 1px solid #808080
+  border-radius 3px
+  cursor pointer
+  position relative
+  &:checked::after
+    content '\2713'
+    font-size 22px
+    color #ffffff
+    position relative
+    left 2px
+    top -7px
+    animation fadeInCheckbox 0.5s forwards
 </style>

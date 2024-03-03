@@ -2,7 +2,7 @@
   <input
     :class="$style.input"
     v-bind="$props"
-    v-model="props.vModel"
+    v-model="props.isChecked"
     type="checkbox"
   />
 </template>
