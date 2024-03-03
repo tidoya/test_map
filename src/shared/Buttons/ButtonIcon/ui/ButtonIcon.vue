@@ -10,16 +10,14 @@ defineProps<ButtonTypes>();
 </script>
 <style module lang="stylus">
 .button
-  width 30px
-  height 30px
-  user-select none
-  border 1px solid rgba(0,0,0,0.2)
-  border-radius 5px
-  color #808080
-  background-color rgba(0,0,0,0)
+  background none
+  border none
+  color inherit
+  font inherit
   cursor pointer
-  transition all 0.2s ease-out
+  padding 0
+  margin 0
+  user-select none
 .button:active
-  background-color #1C1C1C
-  color #fff
+  transform scale(0.9)
 </style>

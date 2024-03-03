@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { ButtonAddressTypes } from "../types/ButtonAddressTypes";
-const props = defineProps<ButtonAddressTypes>();
+import { ButtonTypes } from "../../globalButtonTypes/types";
+defineProps<ButtonTypes>();
 </script>
 <style module lang="stylus">
 .button

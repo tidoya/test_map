@@ -8,7 +8,7 @@
     </div>
     <div :class="$style.content">
       <ButtonAddress @click="handleClickAddress">
-        <img src="../../../assets/icons/location.svg" />
+        <img src="@/assets/icons/location.svg" />
         {{ props.features.properties?.address }}
       </ButtonAddress>
     </div>

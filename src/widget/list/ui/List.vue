@@ -1,19 +1,6 @@
 <template>
   <section :class="$style.wrapper">
-    <h1 :class="$style.header">Точки</h1>
-    <div :class="$style.header__content">
-      <input
-        type="checkbox"
-        name="all"
-        id="all"
-        :class="$style.input"
-        v-model="allChecked"
-        @click="hangleClickCheckbox"
-      />
-      <label :class="$style.label" for="all"
-        >Выбрать все ({{ featureObj.length }})</label
-      >
-    </div>
+    <HeaderList :feature-obj-length="featureObj.length" />
     <ul :class="$style.content">
       <q-virtual-scroll
         :style="{
@@ -61,7 +48,8 @@ import {
   coordinateTypes,
   featureChekedTypes,
 } from "@/app/store/featuresMap/types/types";
-import { Ref, computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
+import HeaderList from "@/entities/HeaderList/ui/HeaderList.vue";
 
 const storeInstanceMap = useInstanceMap();
 
@@ -71,13 +59,6 @@ const featureObj = computed(() => featuresStore.getFeaturesMap);
 const activeSingleFeature = computed(
   () => featuresStore.getActiveSingleFeaturesMap
 );
-
-const allChecked = ref(false);
-
-const hangleClickCheckbox = () => {
-  featuresStore.setAllCheckedFeatures(!allChecked.value);
-  if (allChecked.value) storeInstanceMap.removeAllModalWindow();
-};
 
 const handeleClickActiveFeature = (feature: featureChekedTypes) => {
   if (!feature.checked) featuresStore.toggleActiveFeature(feature);
@@ -103,7 +84,9 @@ onMounted(() => {
   featuresStore.setRandomFeatures(10000);
 });
 </script>
+
 <style module lang="stylus">
+
 @keyframes fadeInCheckbox {
   from {
     opacity: 0;
@@ -120,8 +103,15 @@ onMounted(() => {
   min-width 500px
   min-height 700px
 .header
-  font-size 30px
-  margin 0
+  display flex
+  justify-content space-between
+  &__btnSection
+    display flex
+    gap 5px
+    align-items center
+  &__title
+    font-size 30px
+    margin 0
   &__content
     display flex
     align-items center

@@ -3,7 +3,6 @@ import { LngLat, Map, MapGeoJSONFeature, MapMouseEvent, Popup } from "maplibre-g
 import { propertiesTypes, stateMapTypes } from "./types/types";
 import { getImageCircle } from './model/getImageCircle';
 import { featureChekedTypes, coordinateTypes } from './../featuresMap/types/types';
-import ModalWindowInMap from '@/entities/ModalWindowInMap/ui/ModalWindowInMap.vue'
 import { createApp } from "vue";
 import { getPopupContent } from "./model/getPopupContent";
 
@@ -54,7 +53,7 @@ export const useInstanceMap = defineStore('InstanceMap', {
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
-                this.openModalAtCoordinates(coordinates, { address, code, name });
+                this.openModalAtCoordinates(coordinates, { name, code, address });
             }
         }
       });

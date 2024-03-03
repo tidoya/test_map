@@ -51,7 +51,7 @@ export const useFeaturesMap = defineStore('featuresMap', {
             },
             properties: {
               name: `Точка №${i+1}`,
-              code: 'Код: 234567890234',
+              code: '234567890234',
               address: 'ул. 5-я Парковая, 33-489'
             }
           }

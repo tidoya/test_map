@@ -1,6 +1,4 @@
-<template>
-  <div>sdfsdfsdfsfsfd</div>
-</template>
+<template>form</template>
 
 <script setup lang="ts"></script>
 <style module lang="stylus"></style>
