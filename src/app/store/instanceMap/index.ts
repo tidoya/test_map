@@ -106,7 +106,6 @@ export const useInstanceMap = defineStore('InstanceMap', {
       this.instanceMap.flyTo({
         center: coodinate,
         essential: true,
-        animate: false,
         zoom: 10 
       });
     },
@@ -122,7 +121,6 @@ export const useInstanceMap = defineStore('InstanceMap', {
         
       popup.addTo(this.instanceMap as Map);
       const heightPopup = this.instanceMap._container?.querySelector('#popupContentInMap')?.clientHeight
-      console.log(heightPopup, 'heightPopup')
       heightPopup && popup.setOffset([9, -630 -heightPopup]); 
       console.log('Opening modal at coordinates:', coordinates);
     },
