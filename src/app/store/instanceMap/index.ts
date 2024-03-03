@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
-import { LngLat, Map, MapGeoJSONFeature, MapMouseEvent, Popup } from "maplibre-gl";
+import { Map, MapGeoJSONFeature, MapMouseEvent, Popup } from "maplibre-gl";
 import { propertiesTypes, stateMapTypes } from "./types/types";
 import { getImageCircle } from './model/getImageCircle';
 import { featureChekedTypes, coordinateTypes } from './../featuresMap/types/types';
-import { createApp } from "vue";
 import { getPopupContent } from "./model/getPopupContent";
 
 export const useInstanceMap = defineStore('InstanceMap', {

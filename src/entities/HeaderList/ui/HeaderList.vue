@@ -3,8 +3,13 @@
     <div :class="$style.header">
       <h1 :class="$style.header__title">Точки</h1>
       <div :class="$style.header__btnSection">
-        <input v-if="isSearch" type="text" placeholder="Введите имя..." />
-        <ButtonIcon @click="() => (isSearch = !isSearch)">
+        <input
+          v-if="isSearch"
+          type="text"
+          placeholder="Введите имя точки..."
+          v-model="searchTerm"
+        />
+        <ButtonIcon @click="toggleSearch">
           <img src="@/assets/icons/search.svg" alt="searchIcon" />
         </ButtonIcon>
       </div>
@@ -29,21 +34,30 @@
 import { useFeaturesMap } from "@/app/store/featuresMap";
 import { useInstanceMap } from "@/app/store/instanceMap";
 import ButtonIcon from "@/shared/Buttons/ButtonIcon/ui/ButtonIcon.vue";
-import { ref } from "vue";
+import { debounce } from "quasar";
+import { ref, watch } from "vue";
+
+const props = defineProps<{
+  featureObjLength: number;
+}>();
 
 const storeInstanceMap = useInstanceMap();
 const featuresStore = useFeaturesMap();
 
 const isSearch = ref(false);
 const allChecked = ref(false);
+const searchTerm = ref("");
 
+const toggleSearch = () => {
+  isSearch.value = !isSearch.value;
+  if (!isSearch.value) {
+    searchTerm.value = "";
+  }
+};
 const hangleClickCheckbox = () => {
   featuresStore.setAllCheckedFeatures(!allChecked.value);
   if (allChecked.value) storeInstanceMap.removeAllModalWindow();
 };
-const props = defineProps<{
-  featureObjLength: number;
-}>();
 </script>
 
 <style module lang="stylus">

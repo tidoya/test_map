@@ -8,7 +8,8 @@ export const useFeaturesMap = defineStore('featuresMap', {
   state: (): stateFeaturesMapTypes => ({
     featuresMap: [],
     activeFeatures: [],
-    activeSingleFeature: null
+    activeSingleFeature: null,
+    filteredFeaturesMap: []
   }),
   getters: {
     getFeaturesMap(state) {

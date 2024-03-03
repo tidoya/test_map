@@ -21,18 +21,25 @@ import { ListItemTypes } from "../model/types/ListItemTypes";
 import { useFeaturesMap } from "@/app/store/featuresMap";
 import { useInstanceMap } from "@/app/store/instanceMap";
 import { coordinateTypes } from "@/app/store/featuresMap/types/types";
+import { ref } from "vue";
 
 const storeFeaturesMap = useFeaturesMap();
 const storeInstanceMap = useInstanceMap();
 
+const handleOpenModal = ref(false);
+
 const handleClickAddress = (e: Event) => {
   e.preventDefault();
-  if (props.checked) {
+  if (props.checked && !handleOpenModal.value) {
+    handleOpenModal.value = true;
     storeFeaturesMap.setActiveSingleFeature(props);
     storeInstanceMap.openModalAtCoordinates(
       props.features.geometry.coordinates as coordinateTypes,
       { ...props.features.properties }
     );
+  } else if (handleOpenModal.value) {
+    storeInstanceMap.removeAllModalWindow();
+    handleOpenModal.value = false;
   } else {
     console.log(props, "address not checked");
   }

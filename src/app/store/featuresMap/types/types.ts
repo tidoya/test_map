@@ -13,4 +13,5 @@ export interface stateFeaturesMapTypes {
   featuresMap: featureChekedTypes[]
   activeFeatures: featureChekedTypes[]
   activeSingleFeature: featureChekedTypes | null
+  filteredFeaturesMap: featureChekedTypes[]
 }
