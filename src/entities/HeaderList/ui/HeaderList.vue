@@ -3,7 +3,7 @@
     <div :class="$style.header">
       <h1 :class="$style.header__title">Точки</h1>
       <div :class="$style.header__btnSection">
-        <input v-if="isSearch" type="text" />
+        <input v-if="isSearch" type="text" placeholder="Введите имя..." />
         <ButtonIcon @click="() => (isSearch = !isSearch)">
           <img src="@/assets/icons/search.svg" alt="searchIcon" />
         </ButtonIcon>
