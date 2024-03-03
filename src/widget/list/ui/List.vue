@@ -67,7 +67,6 @@ const storeInstanceMap = useInstanceMap();
 
 const featuresStore = useFeaturesMap();
 const featureObj = computed(() => featuresStore.getFeaturesMap);
-const activeFeatures = computed(() => featuresStore.getActiveFeaturesMap);
 
 const activeSingleFeature = computed(
   () => featuresStore.getActiveSingleFeaturesMap
@@ -77,11 +76,15 @@ const allChecked = ref(false);
 
 const hangleClickCheckbox = () => {
   featuresStore.setAllCheckedFeatures(!allChecked.value);
+  if (allChecked.value) storeInstanceMap.removeAllModalWindow();
 };
 
 const handeleClickActiveFeature = (feature: featureChekedTypes) => {
   if (!feature.checked) featuresStore.toggleActiveFeature(feature);
-  else featuresStore.deleteActiveFeatures(feature);
+  else {
+    featuresStore.deleteActiveFeatures(feature);
+    storeInstanceMap.removeAllModalWindow();
+  }
 };
 
 watch(
