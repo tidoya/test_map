@@ -36,7 +36,9 @@ const storeInstanceMap = useInstanceMap();
 const instanceMap = computed(() => storeInstanceMap.getInstanceMap);
 
 const storeFeaturesMap = useFeaturesMap();
-const featureObj = computed(() => storeFeaturesMap.getFeaturesMap);
+const FilteredFeatureObj = computed(
+  () => storeFeaturesMap.getFilteredFeaturesMap
+);
 const activeFeatures = computed(() => storeFeaturesMap.getActiveFeaturesMap);
 
 const mapContainer: Ref<HTMLElement | null> = ref(null);
@@ -66,8 +68,8 @@ onMounted(async () => {
       mapContainer.value,
       props.CoordsCenter
     ));
-  storeFeaturesMap.toggleActiveFeature(featureObj.value[0]);
-  storeFeaturesMap.setActiveSingleFeature(featureObj.value[0]);
+  storeFeaturesMap.toggleActiveFeature(FilteredFeatureObj.value[0]);
+  storeFeaturesMap.setActiveSingleFeature(FilteredFeatureObj.value[0]);
 });
 </script>
 <style module lang="stylus">
