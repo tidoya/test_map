@@ -81,10 +81,10 @@ export const useFeaturesMap = defineStore('featuresMap', {
       
     },
     setAllCheckedFeatures(typeChecked: boolean) {
-      this.featuresMap.forEach(feature => {
+      this.filteredFeaturesMap.forEach(feature => {
         feature.checked = typeChecked;
       });
-      this.activeFeatures = typeChecked ? [...this.featuresMap] : [];
+      this.activeFeatures = typeChecked ? [...this.filteredFeaturesMap] : [];
     },
     toggleActiveFeature(feature: featureChekedTypes) {
       feature.checked = !feature.checked;
