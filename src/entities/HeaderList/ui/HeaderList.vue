@@ -34,8 +34,8 @@
 import { useFeaturesMap } from "@/app/store/featuresMap";
 import { useInstanceMap } from "@/app/store/instanceMap";
 import ButtonIcon from "@/shared/Buttons/ButtonIcon/ui/ButtonIcon.vue";
+import { onMounted, ref, watch } from "vue";
 import { debounce } from "quasar";
-import { ref, watch } from "vue";
 
 const props = defineProps<{
   featureObjLength: number;
@@ -58,6 +58,17 @@ const hangleClickCheckbox = () => {
   featuresStore.setAllCheckedFeatures(!allChecked.value);
   if (allChecked.value) storeInstanceMap.removeAllModalWindow();
 };
+
+watch(
+  searchTerm,
+  debounce(() => {
+    console.log("debounce");
+    featuresStore.filterFeatures(searchTerm.value);
+  }, 300)
+);
+onMounted(() => {
+  featuresStore.filterFeatures("");
+});
 </script>
 
 <style module lang="stylus">

@@ -3,6 +3,7 @@ import { stateFeaturesMapTypes } from "./types/types";
 import { minLatitude, maxLatitude, minLongitude, maxLongitude } from './constants/constants';
 import { featureChekedTypes } from './types/types';
 import { generateRandomFeatureId } from "./model/generateRadomFeatureId";
+import { propertiesTypes } from "../instanceMap/types/types";
 
 export const useFeaturesMap = defineStore('featuresMap', {
   state: (): stateFeaturesMapTypes => ({
@@ -20,6 +21,9 @@ export const useFeaturesMap = defineStore('featuresMap', {
     },
     getActiveSingleFeaturesMap(state) {
       return state.activeSingleFeature;
+    },
+    getFilteredFeaturesMap(state) {
+      return state.filteredFeaturesMap;
     }
   },
   actions: {
@@ -53,11 +57,28 @@ export const useFeaturesMap = defineStore('featuresMap', {
             properties: {
               name: `Точка №${i+1}`,
               code: '234567890234',
-              address: 'ул. 5-я Парковая, 33-489'
+              address: `ул. 5-я Парковая, 33-${Math.floor(Math.random() * 100) + 1 + i}`
             }
           }
         });
+        this.filteredFeaturesMap.push({
+          id,
+          checked,
+          features: {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [longitude, latitude]
+            },
+            properties: {
+              name: `Точка №${i+1}`,
+              code: '234567890234',
+              address: `ул. 5-я Парковая, 33-${Math.floor(Math.random() * 100) + 1 + i}`
+            }
+          }
+        })
       }
+      
     },
     setAllCheckedFeatures(typeChecked: boolean) {
       this.featuresMap.forEach(feature => {
@@ -77,5 +98,10 @@ export const useFeaturesMap = defineStore('featuresMap', {
     deleteActiveFeatures(feature: featureChekedTypes) {
       this.activeFeatures = this.activeFeatures.filter(f => f.id !== feature.id);
     },
+    filterFeatures(searchTerm: string){
+      this.filteredFeaturesMap = this.featuresMap.filter(feature =>{
+        return (feature.features.properties as propertiesTypes).address.toLowerCase().includes(searchTerm.toLowerCase())  
+      })
+    }
   }
 });

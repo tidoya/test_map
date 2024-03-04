@@ -1,13 +1,13 @@
 <template>
   <section :class="$style.wrapper">
-    <HeaderList :feature-obj-length="featureObj.length" />
+    <HeaderList :feature-obj-length="filteredFeaturesMap.length" />
     <ul :class="$style.content">
       <q-virtual-scroll
         :style="{
           maxHeight: '560px',
           overflow: 'auto',
         }"
-        :items="featureObj"
+        :items="filteredFeaturesMap"
         v-slot="{ item, index }"
         separator
         :class="$style.virtual_scroll"
@@ -54,7 +54,9 @@ import HeaderList from "@/entities/HeaderList/ui/HeaderList.vue";
 const storeInstanceMap = useInstanceMap();
 
 const featuresStore = useFeaturesMap();
-const featureObj = computed(() => featuresStore.getFeaturesMap);
+const filteredFeaturesMap = computed(
+  () => featuresStore.getFilteredFeaturesMap
+);
 
 const activeSingleFeature = computed(
   () => featuresStore.getActiveSingleFeaturesMap
